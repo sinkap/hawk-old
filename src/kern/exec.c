@@ -9,3 +9,5 @@ int BPF_PROG(test_void_hook, struct linux_binprm *bprm)
         bpf_trace_printk(str, sizeof(str));
         return 0;
 }
+
+char _license[] SEC("license") = "GPL";
