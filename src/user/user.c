@@ -5,11 +5,28 @@
 
 int main(int ac, char **argv)
 {       
-        struct exec *skel = NULL;
+    struct exec *skel = NULL;
 
 	skel = exec__open_and_load();
-	exec__attach(skel);
+	if (!skel)
+	{	
+		printf("Error loading the program.\n");
+		exec__destroy(skel);
+		return 0;
+	}
 
-	sleep(1000);
+	int err = exec__attach(skel);
+	if (err != 0)
+    {
+        printf("Error attaching the program.\n");
+		exec__destroy(skel);
+		return 0;
+	}
+
+    printf("Start count: %d\n", skel->bss->bprm_count);
+	sleep(20);
+    printf("End count: %d\n", skel->bss->bprm_count);
+    exec__destroy(skel);
+	
 	return 0;
 }
