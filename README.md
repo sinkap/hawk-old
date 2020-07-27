@@ -73,7 +73,7 @@ Kernel: arch/x86/boot/bzImage is ready  (#2)
 
 After compiling the kernel, install bpf.
 ```
-cd linux/tools/libs/bpf
+cd linux/tools/lib/bpf
 make
 sudo make install prefix=/usr
 ```
