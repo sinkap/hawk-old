@@ -5,7 +5,6 @@ echo "Open a new terminal and use the following command: sudo cat /sys/kernel/de
 kcc()
 {
   clang -g -D__TARGET_ARCH_x86 -mlittle-endian -Wno-compare-distinct-pointer-types -O2 -target bpf -emit-llvm -c $1 -o - | llc -march=bpf -mcpu=v2 -filetype=obj -o "$(basename  $1 .c).o";
-
 }
 
 ucc ()
@@ -13,13 +12,8 @@ ucc ()
     gcc -g $1 -o "$(basename $1 .c)" -I$HOME/libbpf/src/ $HOME/libbpf/src/libbpf.a -lelf -lz
 }
 
-if test -f ../src/user/user; then
-    rm ../src/user/user
-fi
-
-if test -f ../src/kern.exec.o; then
-    rm ../src/kern/exec.o
-fi
+rm -f ../src/user/user
+rm -f ../src/kern/exec.o
 
 bpftool btf dump file /sys/kernel/btf/vmlinux format c > ../src/kern/vmlinux.h
 kcc ../src/kern/exec.c
